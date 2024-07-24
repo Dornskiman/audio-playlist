@@ -1,4 +1,29 @@
 document.addEventListener("DOMContentLoaded", function() {
+    // Initialize theme based on local storage
+    const theme = localStorage.getItem('theme');
+    if (theme === 'dark') {
+        document.body.classList.add('dark-mode');
+        themeToggle.textContent = 'Switch to Light Mode';
+    } else {
+        document.body.classList.remove('dark-mode');
+        themeToggle.textContent = 'Switch to Dark Mode';
+    }
+
+    themeToggle.addEventListener('click', function() {
+        document.body.classList.toggle('dark-mode');
+        if (document.body.classList.contains('dark-mode')) {
+            themeToggle.textContent = 'Switch to Light Mode';
+            localStorage.setItem('theme', 'dark');
+        } else {
+            themeToggle.textContent = 'Switch to Dark Mode';
+            localStorage.setItem('theme', 'light');
+        }
+    });
+
+    // Rest of your script here...
+});
+
+document.addEventListener("DOMContentLoaded", function() {
     const uploadSound = document.getElementById('uploadSound');
     const playButton = document.getElementById('playButton');
     const stopButton = document.getElementById('stopButton');
