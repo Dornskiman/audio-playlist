@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Get elements
     const uploadSound = document.getElementById('uploadSound');
     const playButton = document.getElementById('playButton');
     const stopButton = document.getElementById('stopButton');
@@ -11,8 +12,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const playlist = document.getElementById('playlist');
     const removedTracksList = document.getElementById('removedTracks');
     const themeToggle = document.getElementById('themeToggle');
-    const fartSound = new Audio('fart.mp3'); // Reference to fart sound
+    const fartSoundElement = document.getElementById('fartSound'); // Fart sound element
 
+    // Initialize variables
     let audioFiles = [];
     let removedTracks = [];
     let currentTrackIndex = 0;
@@ -154,6 +156,7 @@ document.addEventListener('DOMContentLoaded', function() {
     uploadSound.addEventListener('change', function(event) {
         const files = Array.from(event.target.files);
         audioFiles = [...audioFiles, ...files];
+
         updatePlaylist();
         console.log('Audio files uploaded:', audioFiles.map(file => file.name));
     });
@@ -193,12 +196,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Update loop settings
     loopPlaylistCheckbox.addEventListener('change', function() {
-        console.log('Loop playlist set to:', loopPlaylistCheckbox.checked);
+        console.log('Loop Playlist:', loopPlaylistCheckbox.checked);
     });
 
     loopSongCheckbox.addEventListener('change', function() {
         currentSound.loop = loopSongCheckbox.checked;
-        console.log('Loop song set to:', loopSongCheckbox.checked);
+        console.log('Loop Song:', loopSongCheckbox.checked);
     });
 
     // Update playback speed
@@ -226,20 +229,24 @@ document.addEventListener('DOMContentLoaded', function() {
         themeToggle.textContent = document.body.classList.contains('dark-mode') ? 'Switch to Light Mode' : 'Switch to Dark Mode';
     });
 
-    // Add warning message
-    const warningMessage = document.createElement('p');
-    warningMessage.id = 'warningMessage';
-    warningMessage.style.color = 'red';
-    warningMessage.style.fontFamily = 'Comic Sans MS, cursive, sans-serif';
-    warningMessage.textContent = 'Do not press the F key';
-    document.body.appendChild(warningMessage);
+    // Fart sound functionality
+    fartSoundElement.addEventListener('canplaythrough', function() {
+        console.log('Fart sound is ready to play.');
+    });
 
-    // Play fart sound on 'F' key press
+    fartSoundElement.addEventListener('error', function(e) {
+        console.error('Error loading fart sound:', e);
+    });
+
     document.addEventListener('keydown', function(event) {
         if (event.key === 'f' || event.key === 'F') {
-            if (fartSound) {
-                fartSound.play();
-            }
+            fartSoundElement.play()
+                .then(() => {
+                    console.log('Fart sound played.');
+                })
+                .catch((error) => {
+                    console.error('Error playing fart sound:', error);
+                });
         }
     });
 });
