@@ -254,4 +254,54 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
+document.addEventListener("DOMContentLoaded", function() {
+    // Existing code...
+
+    function updatePlaylist() {
+        playlist.innerHTML = ''; // Clear existing playlist
+
+        audioFiles.forEach((file, index) => {
+            const li = document.createElement('li');
+            
+            // Track name element
+            const trackName = document.createElement('span');
+            trackName.className = 'track-name';
+            trackName.textContent = file.name;
+            li.appendChild(trackName);
+
+            // Description input
+            const descriptionInput = document.createElement('input');
+            descriptionInput.type = 'text';
+            descriptionInput.className = 'description-input';
+            descriptionInput.value = file.description || '';
+            descriptionInput.placeholder = 'Add a description...';
+            descriptionInput.addEventListener('change', (e) => {
+                file.description = e.target.value;
+            });
+            li.appendChild(descriptionInput);
+
+            // Remove button
+            const removeButton = document.createElement('button');
+            removeButton.className = 'remove-button';
+            removeButton.textContent = 'Remove';
+            removeButton.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent triggering the li click event
+                removeTrack(index);
+            });
+            li.appendChild(removeButton);
+
+            li.addEventListener('click', () => {
+                playTrack(index);
+            });
+
+            if (index === currentTrackIndex) {
+                li.classList.add('active');
+            }
+
+            playlist.appendChild(li);
+        });
+    }
+
+    // Rest of your existing code...
+});
 
