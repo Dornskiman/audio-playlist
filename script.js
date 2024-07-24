@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener('DOMContentLoaded', function() {
     const uploadSound = document.getElementById('uploadSound');
     const playButton = document.getElementById('playButton');
     const stopButton = document.getElementById('stopButton');
@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const playlist = document.getElementById('playlist');
     const removedTracksList = document.getElementById('removedTracks');
     const themeToggle = document.getElementById('themeToggle');
-    const fartSound = document.getElementById('fartSound');
+    const fartSound = document.getElementById('fartSound'); // Reference to fart sound
 
     let audioFiles = [];
     let removedTracks = [];
@@ -54,6 +54,34 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
+    function updateRemovedTracks() {
+        removedTracksList.innerHTML = ''; // Clear removed tracks list
+
+        removedTracks.forEach((file, index) => {
+            const li = document.createElement('li');
+            li.textContent = file.name;
+
+            const reAddButton = document.createElement('button');
+            reAddButton.textContent = 'Re-add';
+            reAddButton.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent triggering the li click event
+                reAddTrack(index);
+            });
+
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Permanently Delete';
+            deleteButton.classList.add('delete');
+            deleteButton.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent triggering the li click event
+                permanentlyDeleteTrack(index);
+            });
+
+            li.appendChild(reAddButton);
+            li.appendChild(deleteButton);
+            removedTracksList.appendChild(li);
+        });
+    }
+
     function playTrack(index) {
         if (index >= 0 && index < audioFiles.length) {
             const file = audioFiles[index];
@@ -78,6 +106,7 @@ document.addEventListener("DOMContentLoaded", function() {
             updatePlaylist();
             updateRemovedTracks();
 
+            // Adjust currentTrackIndex if needed
             if (currentTrackIndex >= audioFiles.length) {
                 currentTrackIndex = audioFiles.length - 1;
             }
@@ -90,6 +119,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function permanentlyDeleteTrack(index) {
         if (index >= 0 && index < removedTracks.length) {
+            // Permanently delete the track
             removedTracks.splice(index, 1);
             updateRemovedTracks();
         }
@@ -120,6 +150,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
+    // Handle file upload
     uploadSound.addEventListener('change', function(event) {
         const files = Array.from(event.target.files);
         audioFiles = [...audioFiles, ...files];
@@ -127,6 +158,7 @@ document.addEventListener("DOMContentLoaded", function() {
         console.log('Audio files uploaded:', audioFiles.map(file => file.name));
     });
 
+    // Play the current track
     playButton.addEventListener('click', function() {
         if (currentSound.src) {
             currentSound.loop = loopSongCheckbox.checked;
@@ -140,6 +172,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+    // Stop the sound
     stopButton.addEventListener('click', function() {
         if (!currentSound.paused) {
             currentSound.pause();
@@ -148,43 +181,60 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+    // Skip to next track
     nextButton.addEventListener('click', function() {
         playNextTrack();
     });
 
+    // Skip to previous track
     prevButton.addEventListener('click', function() {
         playPreviousTrack();
     });
 
+    // Update loop settings
     loopPlaylistCheckbox.addEventListener('change', function() {
-        console.log('Loop Playlist:', loopPlaylistCheckbox.checked);
+        console.log('Loop playlist set to:', loopPlaylistCheckbox.checked);
     });
 
     loopSongCheckbox.addEventListener('change', function() {
         currentSound.loop = loopSongCheckbox.checked;
-        console.log('Loop Song:', loopSongCheckbox.checked);
+        console.log('Loop song set to:', loopSongCheckbox.checked);
     });
 
+    // Update playback speed
     speedInput.addEventListener('change', function() {
         currentSound.playbackRate = parseFloat(speedInput.value);
         console.log('Playback speed set to:', speedInput.value);
     });
 
+    // Handle audio end event
     currentSound.addEventListener('ended', function() {
-        if (loopPlaylistCheckbox.checked) {
+        if (loopSongCheckbox.checked) {
+            playTrack(currentTrackIndex); // Repeat current track
+        } else {
             playNextTrack(); // Play next track
         }
     });
 
+    // Initialize with dark mode
     document.body.classList.add('dark-mode');
     themeToggle.textContent = 'Switch to Light Mode';
 
+    // Handle theme toggle
     themeToggle.addEventListener('click', function() {
         document.body.classList.toggle('dark-mode');
         themeToggle.textContent = document.body.classList.contains('dark-mode') ? 'Switch to Light Mode' : 'Switch to Dark Mode';
     });
 
-    // Handle "F" key press for fart sound
+    // Add warning message
+    const warningMessage = document.createElement('p');
+    warningMessage.id = 'warningMessage';
+    warningMessage.style.color = 'red';
+    warningMessage.style.fontFamily = 'Comic Sans MS, cursive, sans-serif';
+    warningMessage.textContent = 'Do not press the F key';
+    document.body.appendChild(warningMessage);
+
+    // Play fart sound on 'F' key press
     document.addEventListener('keydown', function(event) {
         if (event.key === 'f' || event.key === 'F') {
             if (fartSound) {
