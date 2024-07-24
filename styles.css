@@ -150,3 +150,14 @@ footer {
 footer p {
     margin: 0;
 }
+/* Warning Message Styling */
+#warningSection {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#warningMessage {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    color: red;
+    font-size: 14px;
+}
