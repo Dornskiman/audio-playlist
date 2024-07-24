@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Playlist</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Audio Playlist</h1>
+        <p>Upload your audio files, manage your playlist, and enjoy your music with enhanced controls.</p>
+        <button id="themeToggle">Switch to Light Mode</button>
+    </header>
+
+    <main>
+        <section id="uploadSection">
+            <input type="file" id="uploadSound" accept="audio/*" multiple>
+        </section>
+
+        <section id="controlsSection">
+            <button id="prevButton">Previous Track</button>
+            <button id="playButton">Play Current Track</button>
+            <button id="nextButton">Next Track</button>
+            <button id="stopButton">Stop Sound</button>
+            <label>
+                <input type="checkbox" id="loopCheckbox"> Loop Playlist
+            </label>
+            <label>
+                Playback Speed: 
+                <input type="number" id="speedInput" step="0.1" min="0.1" max="5" value="1">
+            </label>
+        </section>
+
+        <section id="playlistSection">
+            <h2>Playlist</h2>
+            <ul id="playlist"></ul>
+        </section>
+
+        <section id="removedTracksSection">
+            <h2>Removed Tracks</h2>
+            <ul id="removedTracks"></ul>
+        </section>
+
+        <section id="playerSection">
+            <h2>Now Playing</h2>
+            <audio id="currentSound" controls></audio>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Audio Playlist Web App. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
