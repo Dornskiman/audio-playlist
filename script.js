@@ -11,33 +11,11 @@ document.addEventListener("DOMContentLoaded", function() {
     const playlist = document.getElementById('playlist');
     const removedTracksList = document.getElementById('removedTracks');
     const themeToggle = document.getElementById('themeToggle');
+    const fartSound = document.getElementById('fartSound');
 
     let audioFiles = [];
     let removedTracks = [];
     let currentTrackIndex = 0;
-
-    // Initialize theme based on local storage
-    const theme = localStorage.getItem('theme');
-    if (theme === 'dark') {
-        document.body.classList.add('dark-mode');
-        themeToggle.textContent = 'Switch to Light Mode';
-    } else {
-        document.body.classList.remove('dark-mode');
-        themeToggle.textContent = 'Switch to Dark Mode';
-    }
-
-    // Theme toggle
-    themeToggle.addEventListener('click', function() {
-        if (document.body.classList.contains('dark-mode')) {
-            document.body.classList.remove('dark-mode');
-            themeToggle.textContent = 'Switch to Dark Mode';
-            localStorage.setItem('theme', 'light');
-        } else {
-            document.body.classList.add('dark-mode');
-            themeToggle.textContent = 'Switch to Light Mode';
-            localStorage.setItem('theme', 'dark');
-        }
-    });
 
     function updatePlaylist() {
         playlist.innerHTML = ''; // Clear existing playlist
@@ -76,34 +54,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    function updateRemovedTracks() {
-        removedTracksList.innerHTML = ''; // Clear removed tracks list
-
-        removedTracks.forEach((file, index) => {
-            const li = document.createElement('li');
-            li.textContent = file.name;
-
-            const reAddButton = document.createElement('button');
-            reAddButton.textContent = 'Re-add';
-            reAddButton.addEventListener('click', (e) => {
-                e.stopPropagation(); // Prevent triggering the li click event
-                reAddTrack(index);
-            });
-
-            const deleteButton = document.createElement('button');
-            deleteButton.textContent = 'Permanently Delete';
-            deleteButton.classList.add('delete');
-            deleteButton.addEventListener('click', (e) => {
-                e.stopPropagation(); // Prevent triggering the li click event
-                permanentlyDeleteTrack(index);
-            });
-
-            li.appendChild(reAddButton);
-            li.appendChild(deleteButton);
-            removedTracksList.appendChild(li);
-        });
-    }
-
     function playTrack(index) {
         if (index >= 0 && index < audioFiles.length) {
             const file = audioFiles[index];
@@ -128,7 +78,6 @@ document.addEventListener("DOMContentLoaded", function() {
             updatePlaylist();
             updateRemovedTracks();
 
-            // Adjust currentTrackIndex if needed
             if (currentTrackIndex >= audioFiles.length) {
                 currentTrackIndex = audioFiles.length - 1;
             }
@@ -141,7 +90,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function permanentlyDeleteTrack(index) {
         if (index >= 0 && index < removedTracks.length) {
-            // Permanently delete the track
             removedTracks.splice(index, 1);
             updateRemovedTracks();
         }
@@ -172,7 +120,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // Handle file upload
     uploadSound.addEventListener('change', function(event) {
         const files = Array.from(event.target.files);
         audioFiles = [...audioFiles, ...files];
@@ -180,7 +127,6 @@ document.addEventListener("DOMContentLoaded", function() {
         console.log('Audio files uploaded:', audioFiles.map(file => file.name));
     });
 
-    // Play the current track
     playButton.addEventListener('click', function() {
         if (currentSound.src) {
             currentSound.loop = loopSongCheckbox.checked;
@@ -194,7 +140,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // Stop the sound
     stopButton.addEventListener('click', function() {
         if (!currentSound.paused) {
             currentSound.pause();
@@ -203,55 +148,48 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // Skip to next track
     nextButton.addEventListener('click', function() {
         playNextTrack();
     });
 
-    // Skip to previous track
     prevButton.addEventListener('click', function() {
         playPreviousTrack();
     });
 
-    // Update loop settings
     loopPlaylistCheckbox.addEventListener('change', function() {
-        console.log('Loop playlist set to:', loopPlaylistCheckbox.checked);
+        console.log('Loop Playlist:', loopPlaylistCheckbox.checked);
     });
 
     loopSongCheckbox.addEventListener('change', function() {
         currentSound.loop = loopSongCheckbox.checked;
-        console.log('Loop song set to:', loopSongCheckbox.checked);
+        console.log('Loop Song:', loopSongCheckbox.checked);
     });
 
-    // Update playback speed
     speedInput.addEventListener('change', function() {
         currentSound.playbackRate = parseFloat(speedInput.value);
         console.log('Playback speed set to:', speedInput.value);
     });
 
-    // Handle audio end event
     currentSound.addEventListener('ended', function() {
-        if (loopSongCheckbox.checked) {
-            playTrack(currentTrackIndex); // Repeat current track
-        } else {
+        if (loopPlaylistCheckbox.checked) {
             playNextTrack(); // Play next track
         }
     });
-});
-document.addEventListener("DOMContentLoaded", function() {
-    // Existing code...
 
-    // Add audio element for fart noise
-    const fartAudio = new Audio('fart.mp3'); // Ensure this path is correct
+    document.body.classList.add('dark-mode');
+    themeToggle.textContent = 'Switch to Light Mode';
 
-    // Add event listener for keydown
+    themeToggle.addEventListener('click', function() {
+        document.body.classList.toggle('dark-mode');
+        themeToggle.textContent = document.body.classList.contains('dark-mode') ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+    });
+
+    // Handle "F" key press for fart sound
     document.addEventListener('keydown', function(event) {
-        if (event.key.toLowerCase() === 'f') {
-            event.preventDefault(); // Optional: prevent default action
-            fartAudio.play().catch(error => {
-                console.error('Error playing audio:', error);
-            });
+        if (event.key === 'f' || event.key === 'F') {
+            if (fartSound) {
+                fartSound.play();
+            }
         }
     });
 });
-
