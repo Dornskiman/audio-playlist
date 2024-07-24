@@ -1,4 +1,5 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener('DOMContentLoaded', function() {
+    // Get elements
     const uploadSound = document.getElementById('uploadSound');
     const playButton = document.getElementById('playButton');
     const stopButton = document.getElementById('stopButton');
@@ -11,33 +12,12 @@ document.addEventListener("DOMContentLoaded", function() {
     const playlist = document.getElementById('playlist');
     const removedTracksList = document.getElementById('removedTracks');
     const themeToggle = document.getElementById('themeToggle');
+    const fartSoundElement = document.getElementById('fartSound'); // Fart sound element
 
+    // Initialize variables
     let audioFiles = [];
     let removedTracks = [];
     let currentTrackIndex = 0;
-
-    // Initialize theme based on local storage
-    const theme = localStorage.getItem('theme');
-    if (theme === 'dark') {
-        document.body.classList.add('dark-mode');
-        themeToggle.textContent = 'Switch to Light Mode';
-    } else {
-        document.body.classList.remove('dark-mode');
-        themeToggle.textContent = 'Switch to Dark Mode';
-    }
-
-    // Theme toggle
-    themeToggle.addEventListener('click', function() {
-        if (document.body.classList.contains('dark-mode')) {
-            document.body.classList.remove('dark-mode');
-            themeToggle.textContent = 'Switch to Dark Mode';
-            localStorage.setItem('theme', 'light');
-        } else {
-            document.body.classList.add('dark-mode');
-            themeToggle.textContent = 'Switch to Light Mode';
-            localStorage.setItem('theme', 'dark');
-        }
-    });
 
     function updatePlaylist() {
         playlist.innerHTML = ''; // Clear existing playlist
@@ -176,6 +156,7 @@ document.addEventListener("DOMContentLoaded", function() {
     uploadSound.addEventListener('change', function(event) {
         const files = Array.from(event.target.files);
         audioFiles = [...audioFiles, ...files];
+
         updatePlaylist();
         console.log('Audio files uploaded:', audioFiles.map(file => file.name));
     });
@@ -215,12 +196,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Update loop settings
     loopPlaylistCheckbox.addEventListener('change', function() {
-        console.log('Loop playlist set to:', loopPlaylistCheckbox.checked);
+        console.log('Loop Playlist:', loopPlaylistCheckbox.checked);
     });
 
     loopSongCheckbox.addEventListener('change', function() {
         currentSound.loop = loopSongCheckbox.checked;
-        console.log('Loop song set to:', loopSongCheckbox.checked);
+        console.log('Loop Song:', loopSongCheckbox.checked);
     });
 
     // Update playback speed
@@ -237,21 +218,35 @@ document.addEventListener("DOMContentLoaded", function() {
             playNextTrack(); // Play next track
         }
     });
-});
-document.addEventListener("DOMContentLoaded", function() {
-    // Existing code...
 
-    // Add audio element for fart noise
-    const fartAudio = new Audio('fart.mp3'); // Ensure this path is correct
+    // Initialize with dark mode
+    document.body.classList.add('dark-mode');
+    themeToggle.textContent = 'Switch to Light Mode';
 
-    // Add event listener for keydown
+    // Handle theme toggle
+    themeToggle.addEventListener('click', function() {
+        document.body.classList.toggle('dark-mode');
+        themeToggle.textContent = document.body.classList.contains('dark-mode') ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+    });
+
+    // Fart sound functionality
+    fartSoundElement.addEventListener('canplaythrough', function() {
+        console.log('Fart sound is ready to play.');
+    });
+
+    fartSoundElement.addEventListener('error', function(e) {
+        console.error('Error loading fart sound:', e);
+    });
+
     document.addEventListener('keydown', function(event) {
-        if (event.key.toLowerCase() === 'f') {
-            event.preventDefault(); // Optional: prevent default action
-            fartAudio.play().catch(error => {
-                console.error('Error playing audio:', error);
-            });
+        if (event.key === 'f' || event.key === 'F') {
+            fartSoundElement.play()
+                .then(() => {
+                    console.log('Fart sound played.');
+                })
+                .catch((error) => {
+                    console.error('Error playing fart sound:', error);
+                });
         }
     });
 });
-
