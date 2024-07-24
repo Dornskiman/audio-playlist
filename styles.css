@@ -1,163 +1,111 @@
 /* Basic Reset */
-* {
+body, h1, h2, p, button, input {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Body and Theme Styling */
 body {
     font-family: Arial, sans-serif;
-    line-height: 1.6;
-    background-color: #f4f4f4; /* Light mode background */
-    color: #333; /* Light mode text color */
-    transition: background-color 0.3s, color 0.3s;
+    background-color: #f4f4f4;
+    color: #333;
+    padding: 0;
+    margin: 0;
 }
 
 .dark-mode {
-    background-color: #333; /* Dark mode background */
-    color: #f4f4f4; /* Dark mode text color */
+    background-color: #121212;
+    color: #e0e0e0;
 }
 
+/* Header Styling */
 header {
-    background: #333;
+    background-color: #333;
     color: #fff;
-    padding: 20px;
+    padding: 1em;
     text-align: center;
 }
 
 header h1 {
-    margin-bottom: 10px;
+    margin: 0;
 }
 
-header p {
-    font-size: 1.2em;
-}
-
-header #themeToggle {
-    padding: 10px 15px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 5px;
+header button {
+    background-color: #555;
     color: #fff;
-    background: #007bff;
+    border: none;
+    padding: 0.5em 1em;
     cursor: pointer;
-    font-size: 1em;
 }
 
-header #themeToggle:hover {
-    background: #0056b3;
+header button:hover {
+    background-color: #777;
 }
 
+/* Main Section Styling */
 main {
-    padding: 20px;
-    max-width: 800px;
-    margin: 0 auto;
+    padding: 2em;
 }
 
 section {
-    margin-bottom: 20px;
-    padding: 15px;
-    background: #fff;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5em;
 }
 
-.dark-mode section {
-    background: #444; /* Dark mode section background */
-}
-
-h2 {
-    margin-bottom: 10px;
-}
-
-button {
-    padding: 10px 15px;
-    margin-right: 10px;
-    border: none;
-    border-radius: 5px;
-    color: #fff;
-    background: #007bff;
-    cursor: pointer;
-    font-size: 1em;
-}
-
-button:hover {
-    background: #0056b3;
+section h2 {
+    margin-bottom: 0.5em;
 }
 
 input[type="file"] {
-    display: block;
-    margin-bottom: 10px;
+    margin-bottom: 1em;
 }
 
-input[type="number"] {
-    width: 60px;
-    text-align: center;
+button {
+    margin-right: 0.5em;
+    padding: 0.5em 1em;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #ddd;
 }
 
 label {
     display: block;
-    margin: 10px 0;
+    margin: 0.5em 0;
 }
 
-ul {
-    list-style: none;
+/* Playlist and Removed Tracks Styling */
+#playlist, #removedTracks {
+    list-style-type: none;
+    padding: 0;
 }
 
-li {
-    padding: 10px;
-    margin-bottom: 5px;
-    background: #f9f9f9;
-    border-radius: 5px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+#playlist li, #removedTracks li {
+    background-color: #eee;
+    padding: 0.5em;
+    margin: 0.5em 0;
+    border-radius: 4px;
 }
 
-.dark-mode li {
-    background: #555; /* Dark mode list item background */
+#playlist li.active {
+    background-color: #ddd;
 }
 
-li.active {
-    background: #007bff; /* Highlight the active track */
-    color: #fff; /* Text color for the active track */
-}
-
-li.active button {
-    background: #dc3545; /* Button color for the active track */
-}
-
-li button {
-    padding: 5px 10px;
-    font-size: 0.9em;
-    background: #dc3545;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-}
-
-li button:hover {
-    background: #c82333;
-}
-
-footer {
-    text-align: center;
-    padding: 10px;
-    background: #333;
+button.delete {
+    background-color: #f44336;
     color: #fff;
 }
 
-footer p {
-    margin: 0;
-}
-/* Warning Message Styling */
-#warningSection {
-    text-align: center;
-    margin-top: 20px;
+button.delete:hover {
+    background-color: #e53935;
 }
 
-#warningMessage {
-    font-family: 'Comic Sans MS', cursive, sans-serif;
+/* Warning Styling */
+.warning {
     color: red;
-    font-size: 14px;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-size: 0.8em;
+    text-align: center;
+    margin-top: 1em;
 }
