@@ -1,29 +1,4 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // Initialize theme based on local storage
-    const theme = localStorage.getItem('theme');
-    if (theme === 'dark') {
-        document.body.classList.add('dark-mode');
-        themeToggle.textContent = 'Switch to Light Mode';
-    } else {
-        document.body.classList.remove('dark-mode');
-        themeToggle.textContent = 'Switch to Dark Mode';
-    }
-
-    themeToggle.addEventListener('click', function() {
-        document.body.classList.toggle('dark-mode');
-        if (document.body.classList.contains('dark-mode')) {
-            themeToggle.textContent = 'Switch to Light Mode';
-            localStorage.setItem('theme', 'dark');
-        } else {
-            themeToggle.textContent = 'Switch to Dark Mode';
-            localStorage.setItem('theme', 'light');
-        }
-    });
-
-    // Rest of your script here...
-});
-
-document.addEventListener("DOMContentLoaded", function() {
     const uploadSound = document.getElementById('uploadSound');
     const playButton = document.getElementById('playButton');
     const stopButton = document.getElementById('stopButton');
@@ -36,30 +11,57 @@ document.addEventListener("DOMContentLoaded", function() {
     const playlist = document.getElementById('playlist');
     const removedTracksList = document.getElementById('removedTracks');
     const themeToggle = document.getElementById('themeToggle');
-    const descriptionInput = document.getElementById('descriptionInput');
-    const saveDescriptionButton = document.getElementById('saveDescription');
 
     let audioFiles = [];
     let removedTracks = [];
-    let currentTrackIndex = null;
+    let currentTrackIndex = 0;
+
+    // Initialize theme based on local storage
+    const theme = localStorage.getItem('theme');
+    if (theme === 'dark') {
+        document.body.classList.add('dark-mode');
+        themeToggle.textContent = 'Switch to Light Mode';
+    } else {
+        document.body.classList.remove('dark-mode');
+        themeToggle.textContent = 'Switch to Dark Mode';
+    }
+
+    // Theme toggle
+    themeToggle.addEventListener('click', function() {
+        if (document.body.classList.contains('dark-mode')) {
+            document.body.classList.remove('dark-mode');
+            themeToggle.textContent = 'Switch to Dark Mode';
+            localStorage.setItem('theme', 'light');
+        } else {
+            document.body.classList.add('dark-mode');
+            themeToggle.textContent = 'Switch to Light Mode';
+            localStorage.setItem('theme', 'dark');
+        }
+    });
 
     function updatePlaylist() {
-        playlist.innerHTML = '';
+        playlist.innerHTML = ''; // Clear existing playlist
+
         audioFiles.forEach((file, index) => {
             const li = document.createElement('li');
             li.textContent = file.name;
 
-            const description = document.createElement('span');
-            description.textContent = file.description || 'No description';
-            li.appendChild(description);
+            const descriptionInput = document.createElement('input');
+            descriptionInput.type = 'text';
+            descriptionInput.value = file.description || '';
+            descriptionInput.placeholder = 'Add a description...';
+            descriptionInput.addEventListener('change', (e) => {
+                file.description = e.target.value;
+            });
 
             const removeButton = document.createElement('button');
             removeButton.textContent = 'Remove';
             removeButton.addEventListener('click', (e) => {
-                e.stopPropagation();
+                e.stopPropagation(); // Prevent triggering the li click event
                 removeTrack(index);
             });
 
+            li.appendChild(descriptionInput);
             li.appendChild(removeButton);
 
             li.addEventListener('click', () => {
@@ -75,7 +77,8 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function updateRemovedTracks() {
-        removedTracksList.innerHTML = '';
+        removedTracksList.innerHTML = ''; // Clear removed tracks list
+
         removedTracks.forEach((file, index) => {
             const li = document.createElement('li');
             li.textContent = file.name;
@@ -83,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const reAddButton = document.createElement('button');
             reAddButton.textContent = 'Re-add';
             reAddButton.addEventListener('click', (e) => {
-                e.stopPropagation();
+                e.stopPropagation(); // Prevent triggering the li click event
                 reAddTrack(index);
             });
 
@@ -91,7 +94,7 @@ document.addEventListener("DOMContentLoaded", function() {
             deleteButton.textContent = 'Permanently Delete';
             deleteButton.classList.add('delete');
             deleteButton.addEventListener('click', (e) => {
-                e.stopPropagation();
+                e.stopPropagation(); // Prevent triggering the li click event
                 permanentlyDeleteTrack(index);
             });
 
@@ -109,8 +112,7 @@ document.addEventListener("DOMContentLoaded", function() {
             currentSound.play()
                 .then(() => {
                     currentTrackIndex = index;
-                    updatePlaylist();
-                    descriptionInput.value = file.description || '';
+                    updatePlaylist(); // Update playlist to reflect the current track
                     console.log('Playing:', file.name);
                 })
                 .catch((error) => {
@@ -126,6 +128,7 @@ document.addEventListener("DOMContentLoaded", function() {
             updatePlaylist();
             updateRemovedTracks();
 
+            // Adjust currentTrackIndex if needed
             if (currentTrackIndex >= audioFiles.length) {
                 currentTrackIndex = audioFiles.length - 1;
             }
@@ -138,6 +141,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function permanentlyDeleteTrack(index) {
         if (index >= 0 && index < removedTracks.length) {
+            // Permanently delete the track
             removedTracks.splice(index, 1);
             updateRemovedTracks();
         }
@@ -156,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (currentTrackIndex < audioFiles.length - 1) {
             playTrack(currentTrackIndex + 1);
         } else if (loopPlaylistCheckbox.checked) {
-            playTrack(0);
+            playTrack(0); // Loop to the first track
         }
     }
 
@@ -164,18 +168,11 @@ document.addEventListener("DOMContentLoaded", function() {
         if (currentTrackIndex > 0) {
             playTrack(currentTrackIndex - 1);
         } else if (loopPlaylistCheckbox.checked) {
-            playTrack(audioFiles.length - 1);
+            playTrack(audioFiles.length - 1); // Loop to the last track
         }
     }
 
-    function saveDescription() {
-        if (currentTrackIndex !== null) {
-            const file = audioFiles[currentTrackIndex];
-            file.description = descriptionInput.value;
-            updatePlaylist();
-        }
-    }
-
+    // Handle file upload
     uploadSound.addEventListener('change', function(event) {
         const files = Array.from(event.target.files);
         audioFiles = [...audioFiles, ...files];
@@ -183,6 +180,7 @@ document.addEventListener("DOMContentLoaded", function() {
         console.log('Audio files uploaded:', audioFiles.map(file => file.name));
     });
 
+    // Play the current track
     playButton.addEventListener('click', function() {
         if (currentSound.src) {
             currentSound.loop = loopSongCheckbox.checked;
@@ -196,48 +194,47 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+    // Stop the sound
     stopButton.addEventListener('click', function() {
         if (!currentSound.paused) {
             currentSound.pause();
-            currentSound.currentTime = 0;
+            currentSound.currentTime = 0; // Reset playback to the start
             console.log('Audio stopped');
         }
     });
 
+    // Skip to next track
     nextButton.addEventListener('click', function() {
         playNextTrack();
     });
 
+    // Skip to previous track
     prevButton.addEventListener('click', function() {
         playPreviousTrack();
     });
 
+    // Update loop settings
     loopPlaylistCheckbox.addEventListener('change', function() {
-        console.log('Loop Playlist set to:', loopPlaylistCheckbox.checked);
+        console.log('Loop playlist set to:', loopPlaylistCheckbox.checked);
     });
 
     loopSongCheckbox.addEventListener('change', function() {
         currentSound.loop = loopSongCheckbox.checked;
-        console.log('Loop Song set to:', loopSongCheckbox.checked);
+        console.log('Loop song set to:', loopSongCheckbox.checked);
     });
 
+    // Update playback speed
     speedInput.addEventListener('change', function() {
         currentSound.playbackRate = parseFloat(speedInput.value);
         console.log('Playback speed set to:', speedInput.value);
     });
 
+    // Handle audio end event
     currentSound.addEventListener('ended', function() {
-        if (loopPlaylistCheckbox.checked) {
-            playNextTrack();
+        if (loopSongCheckbox.checked) {
+            playTrack(currentTrackIndex); // Repeat current track
         } else {
-            playNextTrack();
+            playNextTrack(); // Play next track
         }
     });
-
-    themeToggle.addEventListener('click', function() {
-        document.body.classList.toggle('dark-mode');
-        themeToggle.textContent = document.body.classList.contains('dark-mode') ? 'Switch to Light Mode' : 'Switch to Dark Mode';
-    });
-
-    saveDescriptionButton.addEventListener('click', saveDescription);
 });
