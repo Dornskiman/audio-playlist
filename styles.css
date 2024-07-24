@@ -1,113 +1,164 @@
 /* Basic Reset */
-body, h1, h2, p, button, input {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Body and Theme Styling */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
-    padding: 0;
-    margin: 0;
+    line-height: 1.6;
+    background-color: #f4f4f4; /* Light mode background */
+    color: #333; /* Light mode text color */
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .dark-mode {
-    background-color: #121212;
-    color: #e0e0e0;
+    background-color: #333; /* Dark mode background */
+    color: #f4f4f4; /* Dark mode text color */
 }
 
-/* Header Styling */
 header {
-    background-color: #333;
+    background: #333;
     color: #fff;
-    padding: 1em;
+    padding: 20px;
     text-align: center;
 }
 
 header h1 {
-    margin: 0;
+    margin-bottom: 10px;
 }
 
-header button {
-    background-color: #555;
-    color: #fff;
+header p {
+    font-size: 1.2em;
+}
+
+header #themeToggle {
+    padding: 10px 15px;
+    margin-top: 10px;
     border: none;
-    padding: 0.5em 1em;
+    border-radius: 5px;
+    color: #fff;
+    background: #007bff;
     cursor: pointer;
+    font-size: 1em;
 }
 
-header button:hover {
-    background-color: #777;
+header #themeToggle:hover {
+    background: #0056b3;
 }
 
-/* Main Section Styling */
 main {
-    padding: 2em;
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 section {
-    margin-bottom: 1.5em;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-section h2 {
-    margin-bottom: 0.5em;
+.dark-mode section {
+    background: #444; /* Dark mode section background */
 }
 
-input[type="file"] {
-    margin-bottom: 1em;
+h2 {
+    margin-bottom: 10px;
 }
 
 button {
-    margin-right: 0.5em;
-    padding: 0.5em 1em;
+    padding: 10px 15px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    background: #007bff;
     cursor: pointer;
+    font-size: 1em;
 }
 
 button:hover {
-    background-color: #ddd;
+    background: #0056b3;
+}
+
+input[type="file"] {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input[type="number"] {
+    width: 60px;
+    text-align: center;
 }
 
 label {
     display: block;
-    margin: 0.5em 0;
+    margin: 10px 0;
 }
 
-/* Playlist and Removed Tracks Styling */
-#playlist, #removedTracks {
-    list-style-type: none;
-    padding: 0;
+ul {
+    list-style: none;
 }
 
-#playlist li, #removedTracks li {
-    background-color: #eee;
-    padding: 0.5em;
-    margin: 0.5em 0;
-    border-radius: 4px;
+li {
+    padding: 10px;
+    margin-bottom: 5px;
+    background: #f9f9f9;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-#playlist li.active {
-    background-color: #ddd;
+.dark-mode li {
+    background: #555; /* Dark mode list item background */
 }
 
-button.delete {
-    background-color: #f44336;
+li.active {
+    background: #007bff; /* Highlight the active track */
+    color: #fff; /* Text color for the active track */
+}
+
+li.active button {
+    background: #dc3545; /* Button color for the active track */
+}
+
+li button {
+    padding: 5px 10px;
+    font-size: 0.9em;
+    background: #dc3545;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+li button:hover {
+    background: #c82333;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background: #333;
     color: #fff;
 }
 
-button.delete:hover {
-    background-color: #e53935;
+footer p {
+    margin: 0;
 }
 
-/* Warning Styling */
-.warning {
-    color: red;
-    font-family: 'Comic Sans MS', cursive, sans-serif;
-    font-size: 0.8em;
+/* Warning Message Styling */
+#warningSection {
     text-align: center;
-    margin-top: 1em;
+    margin-top: 20px;
 }
 
-
+#warningMessage {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    color: red;
+    font-size: 14px;
+}
