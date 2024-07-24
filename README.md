@@ -1,2 +1,2 @@
-# audio-playlist-2.0
-i love my site
+# audio-playlist
+Upload your audio files, manage your playlist, and enjoy your music with enhanced controls.
