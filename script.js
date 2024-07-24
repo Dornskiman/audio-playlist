@@ -238,3 +238,20 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
+document.addEventListener("DOMContentLoaded", function() {
+    // Existing code...
+
+    // Add audio element for fart noise
+    const fartAudio = new Audio('fart.mp3'); // Ensure this path is correct
+
+    // Add event listener for keydown
+    document.addEventListener('keydown', function(event) {
+        if (event.key.toLowerCase() === 'f') {
+            event.preventDefault(); // Optional: prevent default action
+            fartAudio.play().catch(error => {
+                console.error('Error playing audio:', error);
+            });
+        }
+    });
+});
+
