@@ -237,6 +237,9 @@ document.addEventListener("DOMContentLoaded", function() {
             playNextTrack(); // Play next track
         }
     });
+});
+document.addEventListener("DOMContentLoaded", function() {
+    // Existing code...
 
     // Add audio element for fart noise
     const fartAudio = new Audio('fart.mp3'); // Ensure this path is correct
@@ -251,3 +254,4 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
+
