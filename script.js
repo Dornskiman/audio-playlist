@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const playlist = document.getElementById('playlist');
     const removedTracksList = document.getElementById('removedTracks');
     const themeToggle = document.getElementById('themeToggle');
-    const fartSound = document.getElementById('fartSound'); // Reference to fart sound
+    const fartSound = new Audio('fart.mp3'); // Reference to fart sound
 
     let audioFiles = [];
     let removedTracks = [];
