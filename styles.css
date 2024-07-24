@@ -161,3 +161,27 @@ footer p {
     color: red;
     font-size: 14px;
 }
+/* Playlist item description input */
+.description-input {
+    width: 200px; /* Adjust width as needed */
+    margin-left: 10px;
+    padding: 5px;
+    font-size: 14px;
+}
+
+.track-name {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.remove-button {
+    background: #dc3545;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+.remove-button:hover {
+    background: #c82333;
+}
