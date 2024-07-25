@@ -11,6 +11,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const playlist = document.getElementById('playlist');
     const removedTracksList = document.getElementById('removedTracks');
     const themeToggle = document.getElementById('themeToggle');
+    const descriptionInput = document.getElementById('descriptionInput');
+    const confirmDescriptionButton = document.getElementById('confirmDescriptionButton');
 
     let audioFiles = [];
     let removedTracks = [];
@@ -46,13 +48,10 @@ document.addEventListener("DOMContentLoaded", function() {
             const li = document.createElement('li');
             li.textContent = file.name;
 
-            const descriptionInput = document.createElement('input');
-            descriptionInput.type = 'text';
-            descriptionInput.value = file.description || '';
-            descriptionInput.placeholder = 'Add a description...';
-            descriptionInput.addEventListener('change', (e) => {
-                file.description = e.target.value;
-            });
+            // Create a span for the description text
+            const descriptionText = document.createElement('span');
+            descriptionText.className = 'track-description';
+            descriptionText.textContent = file.description || 'No description';
 
             const removeButton = document.createElement('button');
             removeButton.textContent = 'Remove';
@@ -61,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 removeTrack(index);
             });
 
-            li.appendChild(descriptionInput);
+            li.appendChild(descriptionText);
             li.appendChild(removeButton);
 
             li.addEventListener('click', () => {
@@ -237,71 +236,31 @@ document.addEventListener("DOMContentLoaded", function() {
             playNextTrack(); // Play next track
         }
     });
-});
-document.addEventListener("DOMContentLoaded", function() {
-    // Existing code...
 
     // Add audio element for fart noise
     const fartAudio = new Audio('fart.mp3'); // Ensure this path is correct
 
     // Add event listener for keydown
     document.addEventListener('keydown', function(event) {
-        if (event.key.toLowerCase() === 'f') {
+        if (event.key.toLowerCase() === 'f' && document.activeElement.tagName !== 'INPUT') {
             event.preventDefault(); // Optional: prevent default action
             fartAudio.play().catch(error => {
                 console.error('Error playing audio:', error);
             });
         }
     });
+
+    // Confirm description button functionality
+    confirmDescriptionButton.addEventListener('click', function() {
+        const description = descriptionInput.value;
+        if (currentTrackIndex >= 0 && currentTrackIndex < audioFiles.length) {
+            audioFiles[currentTrackIndex].description = description;
+            updatePlaylist(); // Update the playlist to show the new description
+        }
+    });
+
+    // Optional: clear description input when updating description
+    descriptionInput.addEventListener('input', function() {
+        // Optional functionality here if needed
+    });
 });
-document.addEventListener("DOMContentLoaded", function() {
-    // Existing code...
-
-    function updatePlaylist() {
-        playlist.innerHTML = ''; // Clear existing playlist
-
-        audioFiles.forEach((file, index) => {
-            const li = document.createElement('li');
-            
-            // Track name element
-            const trackName = document.createElement('span');
-            trackName.className = 'track-name';
-            trackName.textContent = file.name;
-            li.appendChild(trackName);
-
-            // Description input
-            const descriptionInput = document.createElement('input');
-            descriptionInput.type = 'text';
-            descriptionInput.className = 'description-input';
-            descriptionInput.value = file.description || '';
-            descriptionInput.placeholder = 'Add a description...';
-            descriptionInput.addEventListener('change', (e) => {
-                file.description = e.target.value;
-            });
-            li.appendChild(descriptionInput);
-
-            // Remove button
-            const removeButton = document.createElement('button');
-            removeButton.className = 'remove-button';
-            removeButton.textContent = 'Remove';
-            removeButton.addEventListener('click', (e) => {
-                e.stopPropagation(); // Prevent triggering the li click event
-                removeTrack(index);
-            });
-            li.appendChild(removeButton);
-
-            li.addEventListener('click', () => {
-                playTrack(index);
-            });
-
-            if (index === currentTrackIndex) {
-                li.classList.add('active');
-            }
-
-            playlist.appendChild(li);
-        });
-    }
-
-    // Rest of your existing code...
-});
-
