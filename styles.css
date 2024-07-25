@@ -140,32 +140,6 @@ li button:hover {
     background: #c82333;
 }
 
-/* Description input and confirm button styling */
-.description-container {
-    display: flex;
-    align-items: center;
-}
-
-.description-input {
-    width: 200px; /* Adjust width as needed */
-    margin-right: 10px;
-    padding: 5px;
-    font-size: 14px;
-}
-
-.confirm-button {
-    padding: 5px 10px;
-    font-size: 0.9em;
-    background: #28a745;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-}
-
-.confirm-button:hover {
-    background: #218838;
-}
-
 footer {
     text-align: center;
     padding: 10px;
@@ -188,10 +162,20 @@ footer p {
     color: red;
     font-size: 14px;
 }
-/* Add this new class for description text */
+
+/* Playlist item description */
 .track-description {
-    color: white;
-    display: inline-block;
+    color: #fff; /* White text for description */
+    font-style: italic;
     margin-left: 10px;
-    font-size: 14px;
+}
+
+
+/* Other CSS styles... */
+
+/* Dancing Shark GIF */
+#dancingShark {
+    display: block;
+    margin: 20px auto;
+    max-width: 200px; /* Adjust size as needed */
 }
