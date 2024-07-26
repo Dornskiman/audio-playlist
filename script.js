@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const removedTracksList = document.getElementById('removedTracks');
     const themeToggle = document.getElementById('themeToggle');
     const descriptionInput = document.getElementById('descriptionInput');
-    const confirmDescriptionButton = document.getElementById('confirmDescriptionButton');
+    const confirmDescriptionButton = document.getElementById('descriptionButton'); // Corrected ID
 
     let audioFiles = [];
     let removedTracks = [];
@@ -255,12 +255,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const description = descriptionInput.value;
         if (currentTrackIndex >= 0 && currentTrackIndex < audioFiles.length) {
             audioFiles[currentTrackIndex].description = description;
-            updatePlaylist(); // Update the playlist to show the new description
+            updatePlaylist(); // Update playlist to reflect the new description
         }
-    });
-
-    // Optional: clear description input when updating description
-    descriptionInput.addEventListener('input', function() {
-        // Optional functionality here if needed
     });
 });
